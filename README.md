@@ -165,9 +165,9 @@ while True:
 
 
 ```python
-# Delete all of the account's tweets
-tweets = api.home_timeline()
+# Delete all of the account's tweets, TESTING ONLY
+# tweets = api.home_timeline()
 
-for tweet in tweets:
-    api.destroy_status(tweet['id'])
+# for tweet in tweets:
+#     api.destroy_status(tweet['id'])
 ```
