@@ -125,21 +125,28 @@ def mentions_plot():
         # Store the user mentions data tweet by tweet starting from the most recent
         # We assume the 2nd mention corresponds to the requests since the first mention is the bot itself
         from_user = mentions[counter]['user']['screen_name']
-        user = mentions[counter]['entities']['user_mentions'][1]['screen_name']
+        
+        # We add in this error catching in case the tweet does not have a mention
+        try:
+            user = mentions[counter]['entities']['user_mentions'][1]['screen_name']
+            
+            if user not in users_list:
 
-        if user not in users_list:
+                # Call the tweet_sentiments function to produce the sentiment analysis graph
+                tweet_sentiments(from_user, user)
 
-            # Call the tweet_sentiments function to produce the sentiment analysis graph
-            tweet_sentiments(from_user, user)
+                # Add username to already plotted list
+                users_list.append(user)
 
-            # Add username to already plotted list
-            users_list.append(user)
+                # Set the counter high enough to break the while loop
+                counter = len(mentions)
 
-            # Set the counter high enough to break the while loop
-            counter = len(mentions)
-
-        # Else increment the counter and go to the next mention
-        else:
+            # Else increment the counter and go to the next mention
+            else:
+                counter += 1
+                
+        # If there is no mention in the tweet, just go to the next tweet
+        except IndexError:
             counter += 1
 ```
 
